@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>❤️ Sürpriz ❤️</title>
+<style>
+  body {
+    background-color: #111;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow: hidden;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    padding-top: 100px;
+  }
+
+  .heart {
+    position: relative;
+    width: 175px;
+    height: 90px;
+    transform: scale(0);
+    animation: pop 3s ease forwards, pulse 1.5s infinite 3s;
+    z-index: 10;
+    margin: 0 auto; /* büyük kalbi ortaya aldı */
+  }
+
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 160px;
+    border-radius: 50px 50px 0 0;
+    background: red;
+  }
+
+  .heart::before {
+    left: 100px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+
+  .heart::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .text {
+    color: #fff;
+    font-size: 2rem;
+    margin-top: 220px; /* yazı aşağıda */
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 3s;
+    text-align: center;
+    z-index: 10;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .flying-heart {
+    position: absolute;
+    width: 12px; /* küçük kalp */
+    height: 12px;
+    background: red;
+    animation: fly 5s linear infinite;
+  }
+
+  .flying-heart::before,
+  .flying-heart::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .flying-heart::before { top: -6px; left: 0; }
+  .flying-heart::after { left: 6px; top: 0; }
+
+  @keyframes fly {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-700px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<div class="heart"></div>
+<div class="text">Benimle çıkar mısın atom karıncamm? ❤️</div>
+
+<script>
+  let usedPositions = [];
+  for(let i=0; i<30; i++){
+    let heart = document.createElement('div');
+    heart.className = 'flying-heart';
+
+    // rastgele yatay pozisyon, üst üste gelmemesi için kontrol
+    let left;
+    let tries = 0;
+    do {
+      left = Math.random() * (window.innerWidth - 15);
+      tries++;
+    } while (usedPositions.some(pos => Math.abs(pos - left) < 15) && tries < 50);
+    usedPositions.push(left);
+    heart.style.left = left + 'px';
+
+    heart.style.animationDuration = (4 + Math.random()*3) + 's';
+    heart.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(heart);
+  }
+</script>
+
+</body>
+</html>
